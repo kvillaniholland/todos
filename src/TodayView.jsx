@@ -6,7 +6,6 @@ export default class TodayView extends React.Component {
     return (
       <TodoList
         listId="today-todos"
-        todos={this.props.todos}
         onCheck={this.props.onTodoCheck}
         onReorder={this.props.onReorder}
       />

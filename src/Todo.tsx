@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, CheckBox } from "grommet";
+import { observer } from "mobx-react";
 
-export default class Todo extends React.Component {
+class Todo extends React.Component<{ todo: any; onCheck: any }> {
   render() {
     return (
       <Box direction="row" pad="small">
@@ -14,3 +15,5 @@ export default class Todo extends React.Component {
     );
   }
 }
+
+export default observer(Todo);

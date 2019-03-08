@@ -6,10 +6,13 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 module.exports = {
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".json"]
+  },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader"
@@ -27,7 +30,7 @@ module.exports = {
               modules: true,
               importLoaders: 1,
               localIdentName: "[name]_[local]_[hash:base64]",
-              sourceMap: true,
+              sourceMap: true
             }
           }
         ]

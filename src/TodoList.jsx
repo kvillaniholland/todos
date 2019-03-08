@@ -1,6 +1,9 @@
 import React from "react";
 import { DataTable, CheckBox, Text } from "grommet";
-import Todo from "./Todo.jsx";
+import { observer } from "mobx-react";
+import { values } from "mobx";
+import Todo from "./Todo";
+import store from "./store";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const reorder = (list, startIndex, endIndex) => {
@@ -11,7 +14,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result.map((item, index) => ({ ...item, ordinal: index }));
 };
 
-export default class TodoList extends React.Component {
+class TodoList extends React.Component {
   onDragEnd = result => {
     // dropped outside the list
     if (!result.destination) {
@@ -28,12 +31,14 @@ export default class TodoList extends React.Component {
   };
 
   render() {
+    const todos = store.todos;
+
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div ref={provided.innerRef}>
-              {this.props.todos.map((item, index) => (
+              {values(todos).map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <div
@@ -41,10 +46,7 @@ export default class TodoList extends React.Component {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <Todo
-                        todo={item}
-                        onCheck={event => this.props.onCheck(item, event)}
-                      />
+                      <Todo todo={item} onCheck={item.toggleDone} />
                     </div>
                   )}
                 </Draggable>
@@ -58,25 +60,4 @@ export default class TodoList extends React.Component {
   }
 }
 
-/**
-  <DataTable
-        columns={[
-          {
-            property: "done",
-            header: <Text>Done</Text>,
-            render: item => (
-              <CheckBox
-                checked={item.done}
-                onChange={event => this.props.onCheck(item, event)}
-              />
-            )
-          },
-          {
-            property: "task",
-            header: "Task",
-            primary: true
-          }
-        ]}
-        data={this.props.todos}
-      />
- */
+export default observer(TodoList);
