@@ -30,9 +30,6 @@ const todoActions = (self: any) => ({
   toggleDone() {
     self.done = !self.done;
   },
-  postpone(date = null) {
-    self.due = date || addDays(self.date, 1);
-  },
   setDue(due: Date) {
     self.due = due;
   }
@@ -72,13 +69,19 @@ const RootStore = types
   .views(self => ({
     get todayTodos() {
       return values(self.todos)
-        .filter((todo: any) => todo.due <= new Date())
+        .filter(todo => todo.due <= new Date())
+        .filter(todo => !todo.done)
         .sort((a: any, b: any) => a.ordinal - b.ordinal);
     },
     get allTodos() {
       return values(self.todos)
         .map(item => item)
-        .sort((a: any, b: any) => a.ordinal - b.ordinal);
+        .sort((a: any, b: any) => a.due - b.due);
+    },
+    get allIncompleteTodos() {
+      return values(self.todos)
+        .filter(todo => !todo.done)
+        .sort((a: any, b: any) => a.due - b.due);
     }
   }));
 

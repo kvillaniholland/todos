@@ -13,7 +13,6 @@ const reorder = (list: any[], startIndex: number, endIndex: number) => {
 
 class TodoList extends React.Component<{
   todos: any[];
-  onReorder: (todos: any[]) => void;
 }> {
   onDragEnd = (result: any) => {
     // dropped outside the list
@@ -27,7 +26,7 @@ class TodoList extends React.Component<{
       result.destination.index
     );
 
-    this.props.onReorder(todos);
+    // this.props.onReorder(todos);
   };
 
   render() {

@@ -2,7 +2,7 @@ import React from "react";
 import { Grommet, Box, Tabs, Tab } from "grommet";
 import store from "./store";
 import TodayView from "./TodayView.jsx";
-import TodoList from "./TodoList";
+import TodosView from "./TodosView";
 
 export default class App extends React.Component {
   render() {
@@ -14,7 +14,7 @@ export default class App extends React.Component {
               <TodayView />
             </Tab>
             <Tab title="Todos">
-              <TodoList todos={store.allTodos} />
+              <TodosView />
             </Tab>
           </Tabs>
         </Box>
