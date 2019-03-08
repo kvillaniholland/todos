@@ -1,12 +1,9 @@
 import React from "react";
-import { DataTable, CheckBox, Text } from "grommet";
 import { observer } from "mobx-react";
-import { values } from "mobx";
 import Todo from "./Todo";
-import store from "./store";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const reorder = (list, startIndex, endIndex) => {
+const reorder = (list: any[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -14,8 +11,11 @@ const reorder = (list, startIndex, endIndex) => {
   return result.map((item, index) => ({ ...item, ordinal: index }));
 };
 
-class TodoList extends React.Component {
-  onDragEnd = result => {
+class TodoList extends React.Component<{
+  todos: any[];
+  onReorder: (todos: any[]) => void;
+}> {
+  onDragEnd = (result: any) => {
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -31,14 +31,12 @@ class TodoList extends React.Component {
   };
 
   render() {
-    const todos = store.todos;
-
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div ref={provided.innerRef}>
-              {values(todos).map((item, index) => (
+              {this.props.todos.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <div

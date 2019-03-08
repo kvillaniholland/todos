@@ -1,4 +1,5 @@
 import { types } from "mobx-state-tree";
+import { values } from "mobx";
 
 const commonProps = {
   id: types.identifier,
@@ -62,15 +63,42 @@ export const Todo = types.model(todoProps).actions(todoActions);
 export const Chore = types.model(choreProps).actions(choreActions);
 export const Someday = types.model(commonProps).actions(commonActions);
 
-const RootStore = types.model({
-  todos: types.map(Todo),
-  chores: types.map(Chore),
-  somedays: types.map(Someday)
-});
+const RootStore = types
+  .model({
+    todos: types.map(Todo),
+    chores: types.map(Chore),
+    somedays: types.map(Someday)
+  })
+  .views(self => ({
+    get todayTodos() {
+      return values(self.todos)
+        .filter((todo: any) => todo.due <= new Date())
+        .sort((a: any, b: any) => a.ordinal - b.ordinal);
+    },
+    get allTodos() {
+      return values(self.todos)
+        .map(item => item)
+        .sort((a: any, b: any) => a.ordinal - b.ordinal);
+    }
+  }));
 
 const store = RootStore.create({
   todos: {
-    "1": { task: "eat", done: true, due: new Date(), ordinal: 1, id: "1" }
+    "1": { task: "eat", done: false, due: new Date(), ordinal: 1, id: "1" },
+    "2": {
+      task: "eat tomorrow",
+      done: false,
+      due: new Date("2019-03-09"),
+      ordinal: 1,
+      id: "2"
+    },
+    "3": {
+      task: "eat but worse",
+      done: false,
+      due: new Date(),
+      ordinal: 2,
+      id: "3"
+    }
   }
 });
 

@@ -1,12 +1,13 @@
 import React from "react";
-import TodoList from "./TodoList.jsx";
+import store from "./store";
+import TodoList from "./TodoList";
 
 export default class TodayView extends React.Component {
   render() {
     return (
       <TodoList
         listId="today-todos"
-        onCheck={this.props.onTodoCheck}
+        todos={store.todayTodos}
         onReorder={this.props.onReorder}
       />
     );
