@@ -1,14 +1,26 @@
 import React from "react";
 import { Grommet, Box, Tabs, Tab } from "grommet";
-import store from "./store";
 import TodayView from "./TodayView.jsx";
 import TodosView from "./TodosView";
 import AddItem from "./AddItem";
 
+const theme = {
+  global: {
+    colors: {
+      brand: "#228BE6"
+    },
+    font: {
+      family: "Roboto",
+      size: "14px",
+      height: "20px"
+    }
+  }
+};
+
 export default class App extends React.Component {
   render() {
     return (
-      <Grommet plain>
+      <Grommet theme={theme} full>
         <Box align="center">
           <AddItem />
           <Tabs>
