@@ -108,7 +108,7 @@ const store = RootStore.create({
 export default store;
 
 // PROLLY PUT THIS IN A DATEHELPERS FILE
-const addDays = (date: Date, days: number) => {
+export const addDays = (date: Date, days: number) => {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;
