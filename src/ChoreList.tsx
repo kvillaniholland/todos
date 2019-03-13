@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import Todo from "./Todo";
+import Chore from "./Chore";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const reorder = (list: any[], startIndex: number, endIndex: number) => {
@@ -11,8 +11,8 @@ const reorder = (list: any[], startIndex: number, endIndex: number) => {
   return result.map((item, index) => ({ ...item, ordinal: index }));
 };
 
-class TodoList extends React.Component<{
-  todos: any[];
+class ChoreList extends React.Component<{
+  chores: any[];
 }> {
   onDragEnd = (result: any) => {
     // dropped outside the list
@@ -21,7 +21,7 @@ class TodoList extends React.Component<{
     }
 
     const todos = reorder(
-      this.props.todos,
+      this.props.chores,
       result.source.index,
       result.destination.index
     );
@@ -35,7 +35,7 @@ class TodoList extends React.Component<{
         <Droppable droppableId="droppable">
           {provided => (
             <div ref={provided.innerRef}>
-              {this.props.todos.map((item, index) => (
+              {this.props.chores.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {provided => (
                     <div
@@ -43,7 +43,7 @@ class TodoList extends React.Component<{
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <Todo todo={item} />
+                      <Chore chore={item} />
                     </div>
                   )}
                 </Draggable>
@@ -57,4 +57,4 @@ class TodoList extends React.Component<{
   }
 }
 
-export default observer(TodoList);
+export default observer(ChoreList);
